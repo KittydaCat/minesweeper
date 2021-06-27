@@ -2,8 +2,6 @@ Recreating minesweeper so i can AI it
 
 To Do:
 
-  Test current
-  
   Add visuals
   
   AI it:
@@ -15,3 +13,7 @@ To Do:
     explain pairs to the AI
     
     brute force
+
+Bugs:
+  
+  Zero clear no work
