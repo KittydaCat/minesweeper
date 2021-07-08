@@ -1,6 +1,7 @@
 import random
-import pygame
-pygame.init()
+import tkinter as tk
+from functools import partial
+
 
 class Sweep:
 
@@ -24,12 +25,13 @@ class Sweep:
         # what the player sees
         self.view = [['?' for _ in range(width)] for _ in range(height)]
 
-        # pygame stuff
-        self.gameDisplay = pygame.display.set_mode((800, 800))
-
+        # the tk display
+        self.display = tk.Tk()
 
     # if the player mines a square
     def mine(self, xpos, ypos, recurved=False):
+
+        print(xpos, ypos)
 
         # check if there are any mines and if there isn't
         if True not in ['M' in row for row in self.mines]:
@@ -103,9 +105,13 @@ class Sweep:
 
                                 self.mines[minepos[0] + y][minepos[1] + x] += 1
 
-    def display(self):
+    def update_display(self):
 
-        pass
+        for r in range(self.height):
+
+            for c in range(self.width):
+
+                tk.Button(self.display, text=self.view[r][c], command=partial(self.mine, r, c)).grid(row=r, column=c)
 
     def displaymines(self):
 
@@ -120,6 +126,6 @@ class Sweep:
 
 if __name__ == '__main__':
 
-    s = Sweep(5, 5, 0)
-    s.mine(0, 4)
-    s.display()
+    s = Sweep(5, 5, 5)
+    s.mine(0, 0)
+    s.update_display()
