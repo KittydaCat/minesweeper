@@ -39,6 +39,10 @@ class Sweep:
             # add the mines
             self.seed(xpos, ypos)
 
+        if self.view[ypos][xpos] == 'F':
+
+            return
+
         # kaboom?
         if self.mines[ypos][xpos] == 'M':
 
@@ -82,6 +86,11 @@ class Sweep:
                     # and remove it from the queue
                     self.queue.pop(-1)
 
+    # flag a mine
+    def flag(self, xpos, ypos, event):
+
+        self.view[ypos][xpos] = 'F'
+
     # add the mines
     def seed(self, xpos, ypos):
 
@@ -111,7 +120,13 @@ class Sweep:
 
             for c in range(self.width):
 
-                tk.Button(self.display, text=self.view[r][c], command=partial(self.mine, r, c)).grid(row=r, column=c)
+                button = tk.Button(self.display, text=self.view[r][c], command=partial(self.mine, r, c))
+
+                func = partial(self.flag, c, r)
+
+                button.bind('<Button-3>', func)
+
+                button.grid(row=r, column=c)
 
     def displaymines(self):
 
