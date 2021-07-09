@@ -86,17 +86,31 @@ class Sweep:
                     # and remove it from the queue
                     self.queue.pop(-1)
 
+        self.update_display()
+
     # flag a mine
     def flag(self, xpos, ypos, event):
 
-        self.view[ypos][xpos] = 'F'
+        print(event)
+
+        if  self.view[ypos][xpos] != 'F':
+        
+            self.view[ypos][xpos] = 'F'
+
+        else:
+
+            self.view[ypos][xpos] = '?'
+
+        self.update_display()
 
     # add the mines
     def seed(self, xpos, ypos):
 
         # find all of the possible mine squares
-        posminepos = [(y, x) for x in range(self.height) for y in range(self.width) if abs(x-xpos) > 1 and abs(y-ypos) > 1]
+        posminepos = [(y, x) for x in range(self.height) for y in range(self.width) if abs(x-xpos) > 0 and abs(y-ypos) > 0 and abs(x-xpos) + abs(y-ypos) > 2]
 
+        print(posminepos)
+        
         # loop thru a set amount of random squares
         for minepos in random.sample(posminepos, self.nummines):
 
@@ -120,15 +134,13 @@ class Sweep:
 
             for c in range(self.width):
 
-                button = tk.Button(self.display, text=self.view[r][c], command=partial(self.mine, r, c))
+                button = tk.Button(self.display, text=self.view[r][c], command=partial(self.mine, c, r))
 
-                func = partial(self.flag, c, r)
-
-                button.bind('<Button-3>', func)
+                button.bind('<Button-3>', partial(self.flag, c, r))
 
                 button.grid(row=r, column=c)
 
-    def displaymines(self):
+    def display_mines(self):
 
         for f in self.mines:
 
@@ -142,5 +154,4 @@ class Sweep:
 if __name__ == '__main__':
 
     s = Sweep(5, 5, 5)
-    s.mine(0, 0)
     s.update_display()
