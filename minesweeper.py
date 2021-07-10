@@ -31,8 +31,6 @@ class Sweep:
     # if the player mines a square
     def mine(self, xpos, ypos, recurved=False):
 
-        print(xpos, ypos)
-
         # check if there are any mines and if there isn't
         if True not in ['M' in row for row in self.mines]:
 
@@ -91,9 +89,7 @@ class Sweep:
     # flag a mine
     def flag(self, xpos, ypos, event):
 
-        print(event)
-
-        if  self.view[ypos][xpos] != 'F':
+        if self.view[ypos][xpos] != 'F':
         
             self.view[ypos][xpos] = 'F'
 
